@@ -1,6 +1,6 @@
 class Node
 
-  attr_accessor :leftNode, :rightNode
+  attr_accessor :leftNode, :rightNode, :rightCount, :leftCount
 
   def initialize(value)
     @value = value
@@ -20,30 +20,25 @@ class Node
 
     return self
   end
-  
+
   def rotateLeft
     node = @leftNode
     @leftNode = @leftNode.rightNode
-    calculateCounts
+    @leftCount = node.rightCount
 
     node.rightNode = self
-    node.calculateCounts
+    node.rightCount = length
     node
   end
-  
+
   def rotateRight
     node = @rightNode
     @rightNode = @rightNode.leftNode
-    calculateCounts
+    @rightCount = node.leftCount
 
     node.leftNode = self
-    node.calculateCounts
+    node.leftCount = length
     node
-  end
-
-  def calculateCounts
-    @leftCount = @leftNode ? @leftNode.length : 0
-    @rightCount = @rightNode ? @rightNode.length : 0
   end
 
   def value
