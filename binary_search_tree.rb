@@ -2,8 +2,6 @@ class Node
 
   attr_accessor :leftNode, :rightNode
 
-  LIMIT_COUNT = 2
-
   def initialize(value)
     @value = value
     @rightCount = 0
@@ -11,28 +9,36 @@ class Node
     @same = 0
   end
 
-  # returns new root
+  # rotates tree and returns new root if needed
   def balanceTree
 
-    if @leftCount >= @rightCount + LIMIT_COUNT
-      node = @leftNode
-      @leftNode = @leftNode.rightNode
-      calculateCounts
-
-      node.rightNode = self
-      node.calculateCounts
-      return node
-    elsif @rightCount >= @leftCount + LIMIT_COUNT
-      node = @rightNode
-      @rightNode = @rightNode.leftNode
-      calculateCounts
-
-      node.leftNode = self
-      node.calculateCounts
-      return node
+    if @leftCount > @rightCount*2
+      return rotateLeft
+    elsif @rightCount > @leftCount*2
+      return rotateRight
     end
 
     return self
+  end
+  
+  def rotateLeft
+    node = @leftNode
+    @leftNode = @leftNode.rightNode
+    calculateCounts
+
+    node.rightNode = self
+    node.calculateCounts
+    node
+  end
+  
+  def rotateRight
+    node = @rightNode
+    @rightNode = @rightNode.leftNode
+    calculateCounts
+
+    node.leftNode = self
+    node.calculateCounts
+    node
   end
 
   def calculateCounts
@@ -64,6 +70,8 @@ class Node
       res = @rightCount
     end
 
+    @rightNode = @rightNode.balanceTree if @rightNode
+    @leftNode = @leftNode.balanceTree if @leftNode
     return res
   end
 
@@ -91,7 +99,6 @@ class Tree
   end
 
   def add(value)
-    @rootNode = @rootNode.balanceTree
     node = Node.new(value)
     @rootNode.link node
   end
