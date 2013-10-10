@@ -1,4 +1,4 @@
-load 'tree.rb'
+load 'binary_search_tree.rb'
 
 describe 'tree' do
 
@@ -60,31 +60,31 @@ describe 'tree' do
     tree.rootNode.value.should == 10
 
     tree.add(13).should == 0
-    tree.rootNode.value.should == 11
+    tree.rootNode.value.should == 10
 
     tree.add(14).should == 0
-    tree.rootNode.value.should == 11
+    tree.rootNode.value.should == 10
 
     tree.add(9).should == 5
-    tree.rootNode.value.should == 12
+    tree.rootNode.value.should == 10
 
     tree.add(15).should == 0
-    tree.rootNode.value.should == 12
+    tree.rootNode.value.should == 10
 
     tree.add(16).should == 0
-    tree.rootNode.value.should == 12
+    tree.rootNode.value.should == 10
 
     tree.add(17).should == 0
-    tree.rootNode.value.should == 12
+    tree.rootNode.value.should == 10
 
     tree.add(18).should == 0
-    tree.rootNode.value.should == 13
+    tree.rootNode.value.should == 10
 
     tree.add(19).should == 0
-    tree.rootNode.value.should == 13
+    tree.rootNode.value.should == 10
 
     tree.add(1).should == 11
-    tree.rootNode.value.should == 14
+    tree.rootNode.value.should == 10
   end
 
   it 'should work with nodes in descending order' do
