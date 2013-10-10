@@ -82,6 +82,7 @@ class RedBlackBST
     newNode.left = node
     newNode.color = node.color
     node.color = RED
+    node.size = size(node.left) + size(node.right) + 1
     newNode
   end
 
@@ -91,6 +92,7 @@ class RedBlackBST
     newNode.right = node
     newNode.color = node.color
     node.color = RED
+    node.size = size(node.left) + size(node.right) + 1
     newNode
   end
 

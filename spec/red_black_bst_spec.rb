@@ -14,12 +14,12 @@ describe RedBlackBST do
   end
 
   it 'should return right greater count' do
+
     tree.put(10).should == 0
     tree.put(11).should == 1
     tree.put(12).should == 2
     tree.put(9).should == 0
     tree.put(7).should == 0
-    tree.treeSize.should == 5
     tree.put(13).should == 5
     tree.put(0).should == 0
     tree.put(8).should == 2
