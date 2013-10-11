@@ -7,4 +7,5 @@ Every subtree rotates left or right if left or right subtree is significantly la
 
 red_black_bst
 
-This is a red black binary search tree.
+This is a red black binary search tree. Put method returns a number of keys greater than given.
+TreeRank method returns number of keys smaller, than given.
