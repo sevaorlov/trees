@@ -1,12 +1,13 @@
 class Node
 
-  attr_accessor :key, :value, :left, :right, :color, :size
+  attr_accessor :key, :value, :left, :right, :color, :size, :same
 
   def initialize(key, value, color)
     @key = key
     @value = value
     @color = color
     @size = 1
+    @same = 0
   end
 
 end
@@ -34,6 +35,7 @@ class RedBlackBST
     @comparator = comparator
   end
 
+  # return number of keys less than given
   def treeRank(key)
     rank(key, @root)
   end
@@ -43,9 +45,10 @@ class RedBlackBST
   end
 
   def put(key, value = nil)
+    @count = 0
     @root = putToNode(@root, key, value)
     @root.color = RED
-    rank(key, @root)
+    @count
   end
 
   private
@@ -60,11 +63,14 @@ class RedBlackBST
     cmp = @comparator.compare(key, node.key)
 
     if cmp < 0
+      @count += 1 + node.same() + size(node.right)
       node.left = putToNode(node.left, key, value)
     elsif cmp > 0
       node.right = putToNode(node.right, key, value)
     else
       node.value = value
+      node.same += 1
+      @count += size(node.right)
     end
 
     node = rotateLeft(node) if isRed(node.right) && !isRed(node.left)
@@ -80,8 +86,10 @@ class RedBlackBST
     newNode = node.right
     node.right = newNode.left
     newNode.left = node
-    newNode.color = node.color
-    node.color = RED
+    newNode.color = newNode.left.color
+    newNode.left.color = RED
+
+    newNode.size = size(newNode)
     node.size = size(node.left) + size(node.right) + 1
     newNode
   end
@@ -92,22 +100,24 @@ class RedBlackBST
     newNode.right = node
     newNode.color = node.color
     node.color = RED
+
+    newNode.size = size(newNode)
     node.size = size(node.left) + size(node.right) + 1
     newNode
   end
 
   def flipColors(node)
-    node.color = RED
-    node.left.color = BLACK
-    node.right.color = BLACK
+    node.color = !node.color
+    node.left.color = !node.left.color
+    node.right.color = !node.right.color
   end
 
   def size(node)
     return 0 if node.nil?
-    node.size()
+    node.size() + node.same()
   end
 
-  # returns number of keys less than key in subtree at node
+  # return number of keys less than key in subtree at node
   def rank(key, node)
 
     return 0 if node.nil?
@@ -117,7 +127,7 @@ class RedBlackBST
     if cmp < 0
       return rank(key, node.left)
     elsif cmp > 0
-      return 1 + size(node.left) + rank(key, node.right)
+      return 1 + node.same() + size(node.left) + rank(key, node.right)
     else
       return size(node.left)
     end
